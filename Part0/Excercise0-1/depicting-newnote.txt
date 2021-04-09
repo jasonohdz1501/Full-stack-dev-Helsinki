@@ -1,0 +1,25 @@
+title Creates a new note from page https://studies.cs.helsinki.fi/exampleapp/notes
+
+actor User
+
+note over User:
+User entry the text type 
+data and click submit button
+end note
+
+User->Browser: Save (Submit button)
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+Server --> Browser: Form data: "text" content type [text/html; charset=utf-8]
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+Server --> Browser: HTML Code {text/html; charset=utf-8}
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server --> Browser: CSS Code {text/css; charset=utf-8}
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+Server --> Browser: JS Code {application/javascript; charset=UTF-8}
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server --> Browser: ...{"content":"Hey from Chile","date":"2021-04-09T14:52:56.514Z"}
+Browser --> User: Text/html "text note" Rendered
+Browser -> Server: HTTP GET chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/data/js/extn-utils.html
+Server --> Browser: Content-Security-Policy: script-src 'self' https://use.typekit.net/; object-src 'self';
+Browser -> Server: HTTP GET chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/data/js/extn-utils.js
+Server --> Browser: Content-Security-Policy: script-src 'self' https://use.typekit.net/; object-src 'self';
