@@ -1,0 +1,33 @@
+title Enter to https://studies.cs.helsinki.fi/exampleapp/spa
+
+actor User
+
+
+note over User:
+User entry the text type 
+data and click submit button
+end note
+
+User->Browser: Save (Submit button)
+
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+Server --> Browser: HTML Code {text/html; charset=utf-8}
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server --> Browser: CSS Code {text/css; charset=utf-8}
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+Server --> Browser: JS Code {application/javascript; charset=UTF-8}
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server --> Browser:[{"content":"howdy ","date":"2021-04-09T08:22:49.628Z"}...]
+Browser -> Server: HTTP GET chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/data/js/extn-utils.html
+Server --> Browser: Content-Security-Policy: script-src 'self' https://use.typekit.net/; object-src 'self';
+Browser -> Server: HTTP GET chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/data/js/extn-utils.js
+Server --> Browser: Content-Security-Policy: script-src 'self' https://use.typekit.net/; object-src 'self';
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/favicon.ico
+Server --> Browser: content-type: text/html
+Browser -> Server: HTTP GET chrome-extension://gppongmhjkpfnbhagpmjfkannfbllamg/js/inject.js
+Server --> Browser: Content-Type: text/javascript
+Browser -> Server: HTTP GET chrome-extension://gppongmhjkpfnbhagpmjfkannfbllamg/js/inject.js
+Server --> Browser: Content-Type: text/javascript
+Browser -> Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+Server --> Browser: content-type: application/json; charset=utf-8 {"message":"note created"}
+Browser --> User: Note printed html/txt Rendered
