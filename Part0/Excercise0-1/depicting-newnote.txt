@@ -2,6 +2,7 @@ title Creates a new note from page https://studies.cs.helsinki.fi/exampleapp/not
 
 actor User
 
+
 note over User:
 User entry the text type 
 data and click submit button
