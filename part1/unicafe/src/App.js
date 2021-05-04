@@ -2,28 +2,54 @@ import React, { useState } from 'react'
 
 const Button = ({handleClick, text}) => {
   return (
-    <button onClick = {handleClick}>
-    {text}
-  </button>
+    <button onClick = {handleClick}>{text}</button>
   )
 }
 
-const Statistics = ({good, neutral, bad}) => {
-  if(good === 0 && neutral === 0 && bad === 0) {
-    return (<p>No feedback given</p>)
-  } return (
-    <p>
-      good {good}<br></br>
-      neutral {neutral}<br></br>
-      bad {bad}<br></br>
-      all {good + neutral + bad}
-      <br></br>
-      average {(good * 1 + neutral * 0 + bad * -1)/(good + neutral + bad)}<br></br>
-      positive {(good / (good + neutral + bad))*100} %
-    </p> 
-  ) 
-  
+const ButtonFeedBack = ({buttonProps}) => {
+  return (
+    <>
+      {buttonProps.map((props, i) => (
+        <Button key={i} text={props[0]} handleClick={props[1]} />
+      ))}
+    </>
+  )
 }
+
+const Title = ({title}) => {
+  return (<h1>{title}</h1>)
+}
+
+const Statistics = ({value}) =>{
+
+ for (let i = 0; i < value.length; i++) {
+   if(value[i] !== 0) {
+    
+    const total = () => {
+      return value.reduce((acum, inc) => acum + inc)
+    }
+    const average = () => {
+      return (value[0] - value[2] / total())
+    }
+    const positive = () => {
+      return value[0] / total() * 100
+    }
+
+    return (  
+    <div>
+      good {value[0]}<br></br>
+      neutral {value[1]}<br></br>
+      bad {value[2]}<br></br>
+      all {total()}<br></br>
+      average {average()}<br></br>
+      positive {positive()} %<br></br>
+    </div>  
+    )
+     
+   } return (<p>No given feedback</p>)
+  }
+}
+  
 
 const App = () => {
   // save clicks of each button to its own state
@@ -31,24 +57,16 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
   
-  const goodFeedback = () => {
-    setGood(good +1)
-  }
-  const neutralFeedback = () => {
-    setNeutral(neutral +1)
-  }
-  const badFeedback = () => {
-    setBad(bad +1)
-  }
-  
-  return (
+   return (
     <div>
-      <h1>give feedback</h1>
-      <Button handleClick ={goodFeedback} text='good'/>
-      <Button handleClick ={neutralFeedback} text='neutral'/>
-      <Button handleClick ={badFeedback} text='bad'/>
-      <h1>statistics</h1>
-      <Statistics good = {good} neutral = {neutral} bad = {bad}/>
+      <Title title = 'give feedback' />
+      <ButtonFeedBack buttonProps = {[
+        ['good', () => setGood(good + 1)],
+        ['neutral', () => setNeutral(neutral + 1)],
+        ['bad', () => setBad(bad + 1)]
+      ]}/>
+      <Title title = 'statistics' />
+      <Statistics value ={[good, neutral, bad]}/>
     </div>
   )
 }
