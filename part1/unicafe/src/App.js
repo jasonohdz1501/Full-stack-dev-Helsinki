@@ -37,12 +37,33 @@ const Statistics = ({value}) =>{
 
     return (  
     <div>
-      good {value[0]}<br></br>
-      neutral {value[1]}<br></br>
-      bad {value[2]}<br></br>
-      all {total()}<br></br>
-      average {average()}<br></br>
-      positive {positive()} %<br></br>
+
+      <table>
+        <tr>
+          <td>good</td>
+          <td>{value[0]}</td>
+        </tr>
+        <tr>
+          <td>neutral</td>
+          <td>{value[1]}</td>
+        </tr>
+        <tr>
+          <td>bad</td>
+          <td>{value[2]}</td>
+        </tr>
+        <tr>
+          <td>all</td>
+          <td>{total()}</td>
+        </tr>
+        <tr>
+          <td>average</td>
+          <td>{average()}</td>
+        </tr>
+        <tr>
+          <td>average</td>
+          <td>{positive()}%</td>
+        </tr>
+      </table>
     </div>  
     )
      
