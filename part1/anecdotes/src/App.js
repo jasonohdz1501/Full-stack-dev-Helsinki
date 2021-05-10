@@ -1,15 +1,8 @@
 import React, { useState } from 'react'
+import Anecdotes from './components/Anecdotes.js'
+import AnecdotesMostVotes from './components/AnecdotesMostVotes.js'
 
-const Button = ({handleClick, text}) => {
-  return(
-  <button  onClick = {handleClick}>
-    {text}
-  </button>
-)}
 
-const Anecdotes = ({textResult}) => {
-  return <p>{textResult}</p>
-}
 
 const App = () => {
   const anecdotes = [
@@ -20,17 +13,37 @@ const App = () => {
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
   ]
-   
+
+  const initialVotes = [...anecdotes].fill(0)
+
   const [selected, setSelected] = useState(0)
-  console.log()
-  const random = () => {
-    setSelected(Math.floor(Math.random() * (anecdotes.length - 0) + 0))
+  const [votes, setVotes] = useState(initialVotes)
+  const [mostVotes, setMostVotes] = useState(0)
+  
+  const handleNextAnecdote = () => {
+    setSelected(Math.floor(Math.random() * anecdotes.length))
+  }
+  const handleVote = () => {
+    const newVotes = [...votes]
+    newVotes[selected]++
+    if(newVotes[selected] > newVotes[mostVotes]) {
+      setMostVotes(selected)
+    } 
+    setVotes(newVotes)
   }
  
   return (
     <div>
-      <Anecdotes textResult={anecdotes[selected]}/>
-      <Button text ='next anecdote' handleClick ={random}/>
+        <Anecdotes 
+        anecdote={anecdotes[selected]} 
+        votes={votes[selected]}
+        handleVote ={handleVote}
+        handleNextAnecdote ={handleNextAnecdote}
+      />
+      <AnecdotesMostVotes 
+        anecdote={anecdotes[mostVotes]} 
+        votes ={votes[mostVotes]}
+      />
     </div>
   )
 }
